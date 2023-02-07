@@ -6,6 +6,10 @@
 * Made with [ROBOT](https://robot.obolibrary.org/) and [GNU Make](https://www.gnu.org/software/make/)
 * Continuously tested and built using [Github Actions](https://github.com/tmprd/ontology-pipeline/actions)
 
+# Usage 
+* Set the ontology details and metadata in the [Makefile](/Makefile)
+* Currently, commits on any branch will trigger the test automations
+* Commits to the master branch trigger the test and release automations
+
 # Architecture
-* A basic pipeline is represented in the [Makefile](/Makefile)
-* This pipeline & other advanced versions are documented [here](/docs/)
+* This basic pipeline & other advanced versions are documented [here](/docs/)
