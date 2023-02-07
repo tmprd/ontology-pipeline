@@ -1,5 +1,10 @@
 name: Automated Tests
 on: push
+
+env:
+  cache-path: build/lib
+  cache-key:  build-cache-dependencies
+
 jobs:
   ontology_test:
     runs-on: ubuntu-latest
@@ -7,16 +12,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Cache dependencies
-        id: cache-deps
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-dependencies
+      - name: Restore cached dependencies
+        id: restore-cache
+        uses: actions/cache/restore@v3
         with:
-          path: build/lib
-          # this should be a file with a list of dependencies, to check if it changes and retrigger the cache
-          #key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          path: ${{ env.cache-path }}
+          # TODO this should be a file with a list of dependencies, to check if it changes and retrigger the cache
+          #key: ${{ env-cache-key}}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ env.cache-key }}
 
+      # Run the main steps here
       - name: Run ontology tests
         run: make test-edit
+
+      # Save the cache even if any steps fail
+      - name: Save dependencies to cache
+        id: save-cache
+        uses: actions/cache/save@v3
+        if: always() # or any other condition to invoke the save action
+        with:
+          path: ${{ env.cache-path }}
+          key: ${{ runner.os }}-${{ env.cache-key }}
