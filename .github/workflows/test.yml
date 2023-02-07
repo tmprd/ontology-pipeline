@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Restore cached dependencies
         id: restore-cache
@@ -25,11 +25,19 @@ jobs:
       - name: Run ontology tests
         run: make test-edit
 
-      # Save the cache even if any steps fail
+      # Save any artifact files produced even if tests fail
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ontology_test_results
+          path: build/artifacts/
+
+      # Save cache even if tests fail and only if a cache wasn't restored
       - name: Save dependencies to cache
         id: save-cache
         uses: actions/cache/save@v3
-        if: always() # or any other condition to invoke the save action
+        if: always() && steps.restore-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ env.cache-path }}
           key: ${{ runner.os }}-${{ env.cache-key }}
