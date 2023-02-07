@@ -1,0 +1,24 @@
+name: Automated Release
+on:
+  push:
+    branches: [ main ]
+jobs:
+  ontology_test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-dependencies
+        with:
+          path: build/lib
+          # this should be a file with a list of dependencies, to check if it changes and retrigger the cache
+          #key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Test & build ontology release
+        run: make all
