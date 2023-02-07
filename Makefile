@@ -5,9 +5,9 @@
 # ----------------------------------------
 #### Configuration / details about our project
 # Project essentials
-config.ONTOLOGY_FILE		:= src/ontology/prov.ttl
-config.ONTOLOGY_PREFIX		:= provo
-config.ONTOLOGY-IRI		:= http://purl.obolibrary.org/obo/provo
+config.ONTOLOGY_FILE	:= src/ontology/bfo.owl
+config.ONTOLOGY_PREFIX	:= bfo
+config.ONTOLOGY-IRI		:= http://purl.obolibrary.org/obo/bfo/2.0
 config.BASE_IRI			:= $(config.ONTOLOGY-IRI)_
 config.DEV_IRI			:= $(config.ONTOLOGY-IRI)/dev
 config.MODULES_IRI		:= $(config.DEV_IRI)/modules
@@ -21,6 +21,7 @@ config.QUERIES_DIR		:= $(config.SOURCE_DIR)/sparql
 config.LIBRARY_DIR		:= build/lib
 
 # Settings
+config.FAIL_ON_TEST_FAILURES := true
 config.REPORT_FAIL_ON := ERROR
 
 # Other constants
@@ -117,7 +118,7 @@ verify: $(TEST_INPUT) $(QUERIES) | $(config.QUERIES_DIR) $(config.TEMP_DIR) $(RO
 ifeq ($(QUERIES),)
 	$(error No query files found in $(config.QUERIES_DIR))
 endif
-	$(ROBOT) verify --input $(TEST_INPUT) --output-dir $(config.TEMP_DIR) --queries $(QUERIES)
+	$(ROBOT) verify --input $(TEST_INPUT) --output-dir $(config.TEMP_DIR) --queries $(QUERIES) --fail-on-violation $(config.FAIL_ON_TEST_FAILURES)
 
 # Report using built-in ROBOT queries
 .PHONY: report
