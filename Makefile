@@ -5,20 +5,20 @@
 # ----------------------------------------
 #### Configuration / details about our project
 # Project essentials
-config.ONTOLOGY_FILE	:= src/ontology/prov.ttl
-config.ONTOLOGY_PREFIX	:= provo
+config.ONTOLOGY_FILE		:= src/ontology/prov.ttl
+config.ONTOLOGY_PREFIX		:= provo
 config.ONTOLOGY-IRI		:= http://purl.obolibrary.org/obo/provo
 config.BASE_IRI			:= $(config.ONTOLOGY-IRI)_
 config.DEV_IRI			:= $(config.ONTOLOGY-IRI)/dev
 config.MODULES_IRI		:= $(config.DEV_IRI)/modules
 
 # Local project directories
-config.SOURCE_DIR			:= src/ontology
-config.TEMP_DIR				:= build/artifacts
-config.RELEASE_DIR			:= /
-config.REPORTS_DIR			:= $(config.TEMP_DIR)
-config.QUERIES_DIR			:= $(config.SOURCE_DIR)/sparql
-config.LIBRARY_DIR			:= build/lib
+config.SOURCE_DIR		:= src/ontology
+config.TEMP_DIR			:= build/artifacts
+config.RELEASE_DIR		:= /
+config.REPORTS_DIR		:= $(config.TEMP_DIR)
+config.QUERIES_DIR		:= $(config.SOURCE_DIR)/sparql
+config.LIBRARY_DIR		:= build/lib
 
 # Settings
 config.REPORT_FAIL_ON := ERROR
@@ -45,7 +45,8 @@ release: $(RELEASE_BUILD_FILE) test-release
 # These use Target-Specific Variables as parameters of reusable targets
 .PHONY: 				test-edit test-release
 test-edit: 				TEST_INPUT = $(EDITOR_BUILD_FILE)
-test-release:			TEST_INPUT = $(RELEASE_BUILD_FILE)
+test-release:				TEST_INPUT = $(RELEASE_BUILD_FILE)
+# (This is a disjunction mapped to a conjunction: either target will run all of these targets)
 test-edit test-release: reason verify report
 
 report-edit:				TEST_INPUT = $(EDITOR_BUILD_FILE)
