@@ -23,15 +23,20 @@ config.LIBRARY_DIR		:= build/lib
 # Settings
 # These will cause targets run by a Github Action to fail, if desired
 config.FAIL_ON_TEST_FAILURES := false 
-config.REPORT_FAIL_ON := none # ERROR
+config.REPORT_FAIL_ON := none
 
 # Other constants
 TODAY  := $(shell date +%Y-%m-%d)
 
+# Default name for release. Ideally this should incude some kind of semantic versioning
+config.RELEASE_NAME := $(config.ONTOLOGY_PREFIX) $(TODAY)
+
 # Generic files
 EDITOR_BUILD_FILE = $(config.ONTOLOGY_FILE) # "editors ontology module" http://purl.obolibrary.org/obo/IAO_8000002
 RELEASE_BUILD_FILE = $(config.ONTOLOGY_PREFIX).owl # "main release ontology module" http://purl.obolibrary.org/obo/IAO_8000003
-RELEASE_REPORT_FILE = $(config.REPORTS_DIR)/$(config.ONTOLOGY_PREFIX)-report.tsv
+
+EDITOR_REPORT_FILE = $(config.REPORTS_DIR)/$(config.ONTOLOGY_PREFIX)-edit-report.tsv
+RELEASE_REPORT_FILE = $(config.REPORTS_DIR)/$(config.ONTOLOGY_PREFIX)-release-report.tsv
 
 # Generic directories to create if needed
 REQUIRED_DIRS = $(config.TEMP_DIR) $(config.LIBRARY_DIR) $(config.SOURCE_DIR) $(config.QUERIES_DIR) $(config.REPORTS_DIR)
@@ -47,14 +52,27 @@ build-release: $(RELEASE_BUILD_FILE)
 # These use Target-Specific Variables as parameters of reusable targets
 .PHONY: 				test-edit test-release
 test-edit: 				TEST_INPUT = $(EDITOR_BUILD_FILE)
+test-edit:				REPORT_FILE_INPUT = $(EDITOR_REPORT_FILE)
 test-release:				TEST_INPUT = $(RELEASE_BUILD_FILE)
+test-release:				REPORT_FILE_INPUT = $(RELEASE_REPORT_FILE)
 # (This is a disjunction mapped to a conjunction: either target maps to all of these targets)
 test-edit test-release: reason verify report
 
+.PHONY: 				report-edit report-release
 report-edit:				TEST_INPUT = $(EDITOR_BUILD_FILE)
+report-edit:				REPORT_FILE_INPUT = $(EDITOR_REPORT_FILE)
 report-release:				TEST_INPUT = $(RELEASE_BUILD_FILE)
+report-release:				REPORT_FILE_INPUT = $(RELEASE_REPORT_FILE)
 report-edit report-release: report
 
+# These simply output certain variables that are useful to a Github Action
+.PHONY: output-release-filepath
+output-release-filepath:
+	@echo $(RELEASE_BUILD_FILE)
+	
+.PHONY: output-release-version
+output-release-name:
+	@echo $(config.RELEASE_NAME)
 
 # ----------------------------------------
 #### Setup / configure Make to use with our project
@@ -128,11 +146,13 @@ report: $(TEST_INPUT) | $(config.REPORTS_DIR) $(ROBOT_FILE)
 	--labels true \
 	--fail-on $(config.REPORT_FAIL_ON) \
 	--print 10 \
-	--output $(RELEASE_REPORT_FILE)
+	--output $(REPORT_FILE_INPUT)
 
 
 # ----------------------------------------
 #### Make syntax cheatsheet
+# targets
+# .PHONY means a target that isn't a file to be created or checked
 
 # automatic variables
 # $@ means target

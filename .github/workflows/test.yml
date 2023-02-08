@@ -1,8 +1,9 @@
-name: Automated Tests
+name: Test Ontology Changes
 on: push
 
 env:
   cache-path: build/lib
+  artifacts-path: build/artifacts/
   cache-key:  build-cache-dependencies
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
         if: always()
         with:
           name: ontology_test_results
-          path: build/artifacts/
+          path: ${{ env.artifacts-path }}
 
       # Save cache even if tests fail and only if a cache wasn't restored
       - name: Save dependencies to cache
