@@ -21,8 +21,9 @@ config.QUERIES_DIR		:= $(config.SOURCE_DIR)/sparql
 config.LIBRARY_DIR		:= build/lib
 
 # Settings
-config.FAIL_ON_TEST_FAILURES := true
-config.REPORT_FAIL_ON := ERROR
+# These will cause targets run by a Github Action to fail, if desired
+config.FAIL_ON_TEST_FAILURES := false 
+config.REPORT_FAIL_ON := none # ERROR
 
 # Other constants
 TODAY  := $(shell date +%Y-%m-%d)
@@ -30,7 +31,7 @@ TODAY  := $(shell date +%Y-%m-%d)
 # Generic files
 EDITOR_BUILD_FILE = $(config.ONTOLOGY_FILE) # "editors ontology module" http://purl.obolibrary.org/obo/IAO_8000002
 RELEASE_BUILD_FILE = $(config.ONTOLOGY_PREFIX).owl # "main release ontology module" http://purl.obolibrary.org/obo/IAO_8000003
-RELEASE_REPORT_FILE = $(config.TEMP_DIR)/$(config.ONTOLOGY_PREFIX)-report.tsv
+RELEASE_REPORT_FILE = $(config.REPORTS_DIR)/$(config.ONTOLOGY_PREFIX)-report.tsv
 
 # Generic directories to create if needed
 REQUIRED_DIRS = $(config.TEMP_DIR) $(config.LIBRARY_DIR) $(config.SOURCE_DIR) $(config.QUERIES_DIR) $(config.REPORTS_DIR)
@@ -39,15 +40,15 @@ REQUIRED_DIRS = $(config.TEMP_DIR) $(config.LIBRARY_DIR) $(config.SOURCE_DIR) $(
 # ----------------------------------------
 #### Targets / main "goals" of this Makefile
 .PHONY: all
-all: test-edit release
+all: test-edit build-release test-release
 
-release: $(RELEASE_BUILD_FILE) test-release
+build-release: $(RELEASE_BUILD_FILE)
 
 # These use Target-Specific Variables as parameters of reusable targets
 .PHONY: 				test-edit test-release
 test-edit: 				TEST_INPUT = $(EDITOR_BUILD_FILE)
 test-release:				TEST_INPUT = $(RELEASE_BUILD_FILE)
-# (This is a disjunction mapped to a conjunction: either target will run all of these targets)
+# (This is a disjunction mapped to a conjunction: either target maps to all of these targets)
 test-edit test-release: reason verify report
 
 report-edit:				TEST_INPUT = $(EDITOR_BUILD_FILE)
@@ -125,10 +126,9 @@ endif
 report: $(TEST_INPUT) | $(config.REPORTS_DIR) $(ROBOT_FILE)
 	$(ROBOT) report --input $(TEST_INPUT) \
 	--labels true \
-	--base-iri $(config.BASE_IRI) \
 	--fail-on $(config.REPORT_FAIL_ON) \
 	--print 10 \
-	--output $@
+	--output $(RELEASE_REPORT_FILE)
 
 
 # ----------------------------------------
