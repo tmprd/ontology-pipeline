@@ -11,8 +11,9 @@
 * Add an ontology file and SPARQL query files to the locations specified
     * By default, the sample ontology included in this repo is a copy of http://purl.obolibrary.org/obo/bfo/2.0/bfo.owl 
 * Currently, commits on any branch will trigger the test automations
+    * The results of tests are visible in each executed Github Action and also downloadable as "artifacts"
 * Commits to the master branch trigger the test and release automations
-* The results of tests are visible in each executed Github Action and also downloadable as "artifacts"
+    * The release automation will draft a [Github Release here](https://github.com/tmprd/ontology-pipeline/releases) with the release build of the ontology attached
 
 # Architecture
 * This basic pipeline & other advanced versions are documented [here](/docs/)
