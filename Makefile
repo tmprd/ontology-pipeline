@@ -27,7 +27,7 @@ config.REPORT_FAIL_ON := none
 
 # Other constants
 TODAY  		:= $(shell date +%Y-%m-%d)
-TIMESTAMP	:= $(shell date +%Y-%m-%d %H:%M')
+TIMESTAMP	:= $(shell date +'%Y-%m-%d %H:%M')
 
 # Default name for release. Ideally this should incude some kind of semantic versioning
 config.RELEASE_NAME := $(config.ONTOLOGY_PREFIX) $(TIMESTAMP)

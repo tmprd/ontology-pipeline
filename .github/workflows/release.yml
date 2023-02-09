@@ -61,7 +61,7 @@ jobs:
           draft: true
           prerelease: false
           release_name: ${{ steps.build_release.outputs.RELEASE_NAME }}
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}-action-id
           # body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
