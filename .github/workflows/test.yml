@@ -1,5 +1,7 @@
 name: Test Ontology Changes
-on: push
+on:
+  push:
+    branches-ignore: [ master ]
 
 env:
   cache-path: build/lib

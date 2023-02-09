@@ -6,7 +6,7 @@
 #### Configuration / details about our project
 # Project essentials
 config.ONTOLOGY_FILE	:= src/ontology/bfo.owl
-config.ONTOLOGY_PREFIX	:= bfo
+config.ONTOLOGY_PREFIX	:= BFO
 config.ONTOLOGY-IRI		:= http://purl.obolibrary.org/obo/bfo/2.0
 config.BASE_IRI			:= $(config.ONTOLOGY-IRI)_
 config.DEV_IRI			:= $(config.ONTOLOGY-IRI)/dev
@@ -26,10 +26,11 @@ config.FAIL_ON_TEST_FAILURES := false
 config.REPORT_FAIL_ON := none
 
 # Other constants
-TODAY  := $(shell date +%Y-%m-%d)
+TODAY  		:= $(shell date +%Y-%m-%d)
+TIMESTAMP	:= $(shell date +%Y-%m-%d %H:%M')
 
 # Default name for release. Ideally this should incude some kind of semantic versioning
-config.RELEASE_NAME := $(config.ONTOLOGY_PREFIX) $(TODAY)
+config.RELEASE_NAME := $(config.ONTOLOGY_PREFIX) $(TIMESTAMP)
 
 # Generic files
 EDITOR_BUILD_FILE = $(config.ONTOLOGY_FILE) # "editors ontology module" http://purl.obolibrary.org/obo/IAO_8000002
