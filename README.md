@@ -13,7 +13,7 @@
 * Currently, commits on any branch will trigger the test automations
     * The results of tests are visible in each executed Github Action and also downloadable as "artifacts"
 * Commits to the master branch trigger the test and release automations
-    * The release automation will draft a [Github Release here](https://github.com/tmprd/ontology-pipeline/releases) with the release build of the ontology attached
+    * The release automation will draft a [Github Release here](https://github.com/tmprd/ontology-pipeline/releases) with the release build of the ontology attached, which contains annotations of the version metadata.
 
 # Architecture
 * This basic pipeline & other advanced versions are documented [here](/docs/)
