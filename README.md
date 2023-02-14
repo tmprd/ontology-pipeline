@@ -5,6 +5,7 @@
 * Minimal infrastructure for automatically testing and building released versions of ontologies
 * Made with [ROBOT](https://robot.obolibrary.org/) and automated with [GNU Make](https://www.gnu.org/software/make/)
 * Continuously tested, built, and deployed using [Github Actions](https://github.com/tmprd/ontology-pipeline/actions)
+* Inspired by [ongoing efforts](https://oboacademy.github.io/obook/lesson/automating-ontology-workflows/) to use simple and sustainable techniques for ontology engineering
 
 # Usage 
 * Set the ontology details and metadata in the [Makefile](/Makefile)
@@ -22,6 +23,9 @@
    * Upcoming Option 3: This repo could be published as a Github Action that you may reference in your repo, without needing a Makefile. However, this would make your project more dependent on Github. (The Makefile is intended to be completely usable without Github.)
     
 # Architecture
-* This basic pipeline & other advanced versions are documented [here](/docs/)
+* This basic pipeline & other upcoming advanced versions are documented [here](/docs/)
 * Downloaded dependencies like ROBOT are [cached](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows) for re-use in the Github Actions. The cache is currently cleared after 7 days of no use.
 * The Makefile can be used independently of a Github Action by running it locally with Make
+
+# Related Tools
+* For more advanced ontology engineering automation, see [ODK](https://github.com/INCATools/ontology-development-kit) and [OAK](https://github.com/INCATools/ontology-access-kit)
