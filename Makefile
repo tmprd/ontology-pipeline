@@ -137,9 +137,10 @@ reason: $(TEST_INPUT) | $(ROBOT_FILE)
 .PHONY: verify
 verify: $(TEST_INPUT) $(QUERIES) | $(config.QUERIES_DIR) $(config.TEMP_DIR) $(ROBOT_FILE)
 ifeq ($(QUERIES),)
-	$(error No query files found in $(config.QUERIES_DIR))
-endif
+	$(warning No query files found in $(config.QUERIES_DIR))
+else
 	$(ROBOT) verify --input $(TEST_INPUT) --output-dir $(config.TEMP_DIR) --queries $(QUERIES) --fail-on-violation $(config.FAIL_ON_TEST_FAILURES)
+endif
 
 # Report using built-in ROBOT queries
 .PHONY: report
