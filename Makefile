@@ -1,6 +1,9 @@
 #### Basic Ontology Pipeline
-# Heavily adapted from https://github.com/obi-ontology/obi/blob/master/Makefile
+# Heavily adapted from https://github.com/obi-ontology/obi/blob/master/Makefile by James A. Overton <james@overton.ca>
 # Tim Prudhomme <tmprdh@gmail.com>
+
+# WARN: This file contains significant whitespace, i.e. tabs!
+# Ensure that your text editor shows you those characters.
 
 # ----------------------------------------
 #### Configuration / details about our project
