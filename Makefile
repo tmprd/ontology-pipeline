@@ -51,6 +51,8 @@ REQUIRED_DIRS = $(config.TEMP_DIR) $(config.LIBRARY_DIR) $(config.SOURCE_DIR) $(
 .PHONY: all
 all: reason-edit test-edit build-release reason-release test-release
 
+build-release: $(RELEASE_BUILD_FILE)
+
 # These are parameterized targets, which assign "target-specific variables" to be used in a resuable target
 .PHONY: reason-edit reason-release test-edit test-release report-edit report-
 reason-edit test-edit report-edit: 				TEST_INPUT = $(EDITOR_BUILD_FILE)
